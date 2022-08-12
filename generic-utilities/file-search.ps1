@@ -6,12 +6,16 @@ if (!$adminCheck) {
     exit 1
 }
 
-# Begin!
+# Collect!
 $search = Read-Host "Search drive for"
 $drive = Read-Host "Search drive letter or location path"
+
+# Append!
 $measureDrive = $drive | Measure-Object -Character
 if ($measureDrive.Characters -eq 1) {
     $drive = $drive+":\"
 }
+
+# Locate!
 Write-Host -fore Green "Searching ${drive} for anything that contains ${search}"
 Get-ChildItem -Recurse -File -Include *${search}* -Path ${drive}
