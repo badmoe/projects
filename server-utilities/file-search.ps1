@@ -1,3 +1,12 @@
+# Check if ran as administrator
+$adminCheck=[bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")
+if (!$adminCheck) {
+    "Please run as administrator. Exiting..."
+    sleep 5
+    exit 1
+}
+
+# Begin!
 $search = Read-Host "Search drive for"
 $drive = Read-Host "Search drive letter or location path"
 $measureDrive = $drive | Measure-Object -Character
