@@ -18,7 +18,7 @@ Function Export-PersonalCertificates {
     $certs = Get-ChildItem -Path $certStorePath | Where-Object { $_.HasPrivateKey }
     
     Foreach ($cert in $certs) {
-        $filename = $cert.IssuedTo.Name.Substring(0, 10) + "_" + $cert.SerialNumber.Substring($cert.SerialNumber.Length - 4) + ".cer"
+        $filename = $cert.SerialNumber.Substring($cert.SerialNumber.Length - 4) + ".cer"
         $cert | Export-Certificate -Type CERT -FilePath "C:\certs\$filename"
     }
 }
