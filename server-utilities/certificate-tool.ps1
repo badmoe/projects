@@ -45,19 +45,11 @@ Function Get-CertificateInfo {
         $serial = $cert.SerialNumber
         $subject = $cert.Subject
         $san = $cert.SubjectAltName
-        $ku = $cert.KeyUsage
-        $thumbprintAlgorithm = $cert.ThumbprintAlgorithm
-        $signatureAlgorithm = $cert.SignatureAlgorithm
-        $signatureHashAlgorithm = $cert.SignatureHashAlgorithm
 
         $certInfo += [PSCustomObject]@{
             Serial = $serial
             Subject = $subject
             SAN = $san
-            KU = $ku
-            ThumbprintAlgorithm = $thumbprintAlgorithm
-            SignatureAlgorithm = $signatureAlgorithm
-            SignatureHashAlgorithm = $signatureHashAlgorithm
         }
     }
 
@@ -65,11 +57,28 @@ Function Get-CertificateInfo {
         Write-Host "Certificate Serial: $($info.Serial.Substring($info.Serial.Length - 6))"
         Write-Host "Subject: $($info.Subject)"
         Write-Host "Subject Alternative Name: $($info.SAN)"
-        Write-Host "Key Usage: $($info.KU)"
-        Write-Host "Thumbprint Algorithm: $($info.ThumbprintAlgorithm)"
-        Write-Host "Signature Algorithm: $($info.SignatureAlgorithm)"
-        Write-Host "Signature Hash Algorithm: $($info.SignatureHashAlgorithm)"
-        Write-Host "=============================="
+        Write-Host "------------------------------------"
+    }
+}
+
+Function Get-CertificateChainSerials {
+    $certStorePath = Read-Host "Check certificates in the current user's personal store (1) or the local machine's personal store (2)? (1/2)"
+    if ($certStorePath -eq "1") {
+        $certStorePath = "Cert:\CurrentUser\My"
+    }
+    elseif ($certStorePath -eq "2") {
+        $certStorePath = "Cert:\LocalMachine\My"
+    }
+
+    $certs = Get-ChildItem -Path $certStorePath
+
+    Foreach ($cert in $certs) {
+        Write-Host "Certificate: $($cert.SerialNumber.Substring($cert.SerialNumber.Length - 6))"
+        $chain = $cert.Chain
+        Foreach ($c in $chain) {
+            Write-Host "  Chain: $($c.SerialNumber.Substring($c.SerialNumber.Length - 6))"
+        }
+        Write-Host "------------------------------------"
     }
 }
 
@@ -78,6 +87,7 @@ While ($true) {
     Write-Host "1. Export Personal Certificates"
     Write-Host "2. Combine Certificates"
     Write-Host "3. Output Details of Personal Certificates"
+    Write-Host "4. Check serials of Personal Certificate Chains"
     Write-Host "0. Quit Script"
     $function = Read-Host "Enter the number of the function you would like to run: "
     
@@ -85,6 +95,7 @@ While ($true) {
         1 { Export-PersonalCertificates }
         2 { Combine-Certificates }
         3 { Get-CertificateInfo }
+        4 { Get-CertificateChainSerials }
         0 { Break }
         Default { Write-Host "Invalid selection. Please try again." }
     }
