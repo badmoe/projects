@@ -108,7 +108,7 @@ While ($true) {
         Default { Write-Host "Invalid selection. Please try again." }
     }
     
-    If ($function -eq 5) {
+    If ($function -eq 6) {
         Break
     }
 }
