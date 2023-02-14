@@ -39,8 +39,6 @@ Function Get-CertificateInfo {
 
     $certs = Get-ChildItem -Path $certStorePath
 
-    $now = Get-Date
-
     $certInfo = @()
 
     Foreach ($cert in $certs) {
@@ -48,30 +46,32 @@ Function Get-CertificateInfo {
         $subject = $cert.Subject
         $san = $cert.SubjectAltName
         $ku = $cert.KeyUsage
-        $lastUse = $cert.NotAfter
-        $timeDiff = $lastUse - $now
+        $thumbprintAlgorithm = $cert.ThumbprintAlgorithm
+        $signatureAlgorithm = $cert.SignatureAlgorithm
+        $signatureHashAlgorithm = $cert.SignatureHashAlgorithm
 
         $certInfo += [PSCustomObject]@{
             Serial = $serial
             Subject = $subject
             SAN = $san
             KU = $ku
-            DaysSinceLastUse = $timeDiff.Days
+            ThumbprintAlgorithm = $thumbprintAlgorithm
+            SignatureAlgorithm = $signatureAlgorithm
+            SignatureHashAlgorithm = $signatureHashAlgorithm
         }
     }
-
-    $certInfo = $certInfo | Sort-Object DaysSinceLastUse
 
     Foreach ($info in $certInfo) {
         Write-Host "Certificate Serial: $($info.Serial.Substring($info.Serial.Length - 6))"
         Write-Host "Subject: $($info.Subject)"
         Write-Host "Subject Alternative Name: $($info.SAN)"
         Write-Host "Key Usage: $($info.KU)"
-        Write-Host "Days Since Last Use: $($info.DaysSinceLastUse)"
-        Write-Host ""
+        Write-Host "Thumbprint Algorithm: $($info.ThumbprintAlgorithm)"
+        Write-Host "Signature Algorithm: $($info.SignatureAlgorithm)"
+        Write-Host "Signature Hash Algorithm: $($info.SignatureHashAlgorithm)"
+        Write-Host "=============================="
     }
 }
-
 
 While ($true) {
     Write-Host "Please select a function to run:"
