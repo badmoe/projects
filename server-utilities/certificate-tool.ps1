@@ -75,8 +75,10 @@ Function Get-CertificateChainSerials {
     Foreach ($cert in $certs) {
         Write-Host "Certificate: $($cert.SerialNumber.Substring($cert.SerialNumber.Length - 6))"
         $chain = $cert.Chain
+        $chainIndex = 0
         Foreach ($c in $chain) {
-            Write-Host "  Chain: $($c.SerialNumber.Substring($c.SerialNumber.Length - 6))"
+            Write-Host "  Chain $chainIndex: $($c.SerialNumber.Substring($c.SerialNumber.Length - 6))"
+            $chainIndex++
         }
         Write-Host "------------------------------------"
     }
