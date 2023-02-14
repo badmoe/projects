@@ -61,34 +61,11 @@ Function Get-CertificateInfo {
     }
 }
 
-Function Get-CertificatePathSerials {
-    $certStorePath = Read-Host "Check certificates in the current user's personal store (1) or the local machine's personal store (2)? (1/2)"
-    if ($certStorePath -eq "1") {
-        $certStorePath = "Cert:\CurrentUser\My"
-    }
-    elseif ($certStorePath -eq "2") {
-        $certStorePath = "Cert:\LocalMachine\My"
-    }
-
-    $certs = Get-ChildItem -Path $certStorePath
-
-    Foreach ($cert in $certs) {
-        Write-Host "Certificate: $($cert.SerialNumber.Substring($cert.SerialNumber.Length - 6))"
-        $path = $cert.GetCertificatePath()
-        Foreach ($p in $path) {
-            Write-Host "  Path: $($p.SerialNumber.Substring($p.SerialNumber.Length - 6))"
-        }
-        Write-Host "------------------------------------"
-    }
-}
-
-
 While ($true) {
     Write-Host "Please select a function to run:"
     Write-Host "1. Export Personal Certificates"
-    Write-Host "2. Combine Certificates"
+    Write-Host "2. Combine Certificates (Under Construction)"
     Write-Host "3. Output Details of Personal Certificates"
-    Write-Host "4. Check serials of Personal Certificate Paths"
     Write-Host "0. Quit Script"
     $function = Read-Host "Enter the number of the function you would like to run: "
     
@@ -96,7 +73,6 @@ While ($true) {
         1 { Export-PersonalCertificates }
         2 { Combine-Certificates }
         3 { Get-CertificateInfo }
-        4 { Get-CertificatePathSerials }
         0 { Break }
         Default { Write-Host "Invalid selection. Please try again." }
     }
