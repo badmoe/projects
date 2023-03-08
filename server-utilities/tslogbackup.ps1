@@ -7,6 +7,11 @@ $documentsPath = [Environment]::GetFolderPath("MyDocuments")
 # Define the path to the Transcripts folder
 $transcriptsPath = Join-Path $documentsPath "Transcripts"
 
+# Create the Transcripts folder if it doesn't exist
+if (-not (Test-Path $transcriptsPath)) {
+    New-Item -ItemType Directory -Path $transcriptsPath
+}
+
 # Define the name of the folder to skip based on today's date
 $skipFolderName = (Get-Date).ToString("yyyyMMdd")
 
