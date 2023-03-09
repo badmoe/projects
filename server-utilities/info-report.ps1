@@ -2,8 +2,25 @@
 $hostname = $env:COMPUTERNAME
 
 # Define the output file paths
-$jsonFilePath = "C:\$($hostname)-report.json"
+$jsonFilePath = "C:\$($hostname).json"
 $infoFilePath = "C:\$($hostname)-report.txt"
+
+# Add header for non-service user login details section in $infoFilePath
+"`nNon-service user login details:`n" | Out-File -FilePath $infoFilePath
+# Get all non-service user logon events for non-system users
+$logins = Get-WinEvent -ProviderName 'Microsoft-Windows-Security-Auditing' -FilterXPath "*[System[EventID=4624] and EventData[Data[@Name='LogonType']='7']]" -MaxEvents 10 |
+Select-Object TimeCreated, @{Name="User";Expression={$_.Properties[5].Value}}
+# Output non-service user login details as a string to $infoFilePath
+$logins | Out-File -FilePath $infoFilePath -Append
+
+# Add header for installed apps section in $infoFilePath
+"`nInstalled apps:`n" | Out-File -FilePath $infoFilePath -Append
+# Get installed apps
+$apps = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | 
+    Select-Object DisplayName, DisplayVersion | 
+    Where-Object { $_.DisplayName -ne $null -and $_.DisplayVersion -ne $null }
+# Output installed apps as a string to $infoFilePath
+$apps | Out-File -FilePath $infoFilePath -Append
 
 # Add header for running services section in $infoFilePath
 "`nRunning services:`n" | Out-File -FilePath $infoFilePath -Append
@@ -19,36 +36,7 @@ $startupServices = Get-CimInstance -ClassName Win32_Service | Where-Object {$_.S
 # Output startup services as a string to $infoFilePath
 $startupServices | Out-File -FilePath $infoFilePath -Append
 
-# Add header for non-service user login details section in $infoFilePath
-"`nNon-service user login details:`n" | Out-File -FilePath $infoFilePath -Append
-# Get all non-service user logon events for non-system users
-$logins = Get-WinEvent -FilterHashtable @{LogName="Security";ID="4624"} | ForEach-Object {
-    $wevent = $_
-    $user = $wevent.Properties[5].Value
-    $time = $wevent.TimeCreated
-    $ip = $wevent.Properties[18].Value
-    $type = $wevent.Properties[8].Value
-    if ($type -eq 10 -and $user -notmatch "NT AUTHORITY\SYSTEM") {
-        [PSCustomObject]@{
-            User = $user
-            Time = $time
-            IP = $ip
-            Type = $type
-        }
-    }
-} | Select-Object -Last 5
-# Output non-service user login details as a string to $infoFilePath
-$logins | Out-File -FilePath $infoFilePath -Append
-
-# Add header for installed apps section in $infoFilePath
-"`nInstalled apps:`n" | Out-File -FilePath $infoFilePath -Append
-# Get installed apps
-$apps = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | 
-    Select-Object DisplayName, DisplayVersion | 
-    Where-Object { $_.DisplayName -ne $null -and $_.DisplayVersion -ne $null }
-# Output installed apps as a string to $infoFilePath
-$apps | Out-File -FilePath $infoFilePath -Append
-
+# Output all sections as JSON to $jsonFilePath
 @{
     "logins" = $logins
     "apps" = $apps
