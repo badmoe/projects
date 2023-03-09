@@ -43,7 +43,9 @@ $logins | Out-File -FilePath $infoFilePath -Append
 # Add header for installed apps section in $infoFilePath
 "`nInstalled apps:`n" | Out-File -FilePath $infoFilePath -Append
 # Get installed apps
-$apps = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion
+$apps = Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | 
+    Select-Object DisplayName, DisplayVersion | 
+    Where-Object { $_.DisplayName -ne $null -and $_.DisplayVersion -ne $null }
 # Output installed apps as a string to $infoFilePath
 $apps | Out-File -FilePath $infoFilePath -Append
 
