@@ -1,0 +1,19 @@
+services:
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:ollama  # Pull the pre-built image
+    container_name: ollama-base                  # Name the container
+    ports:
+      - "3001:8080"                              # Expose host port 3001 and map it to container port 8080
+    volumes:
+      - ollama:/root/.ollama                     # Mount volume for Ollama's data
+      - open-webui:/app/backend/data             # Mount volume for Open-WebUI's backend data
+      - ./models:/models                         # Mount the model directory
+      - ./start_ollama.sh:/app/start_ollama.sh   # Bind mount for the startup script
+    environment:
+      - OLLAMA_MODELS=/models                    # Point to model directory
+    command: "/bin/sh -c '/app/start_ollama.sh'"    # Run the custom startup script
+    restart: always                              # Ensure the container restarts automatically
+
+volumes:
+  ollama:                                         # Define volume for Ollama's data
+  open-webui:                                     # Define volume for Open-WebUI's backend data
