@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  tribes_ascend_server:
+    image: chickenbellyfin/taserver:latest
+    container_name: tribes_ascend_server
+    ports:
+      - "7777:7777/udp"
+      - "7778:7778/udp"
+      - "9002:9002/udp"
+    volumes:
+      - .\gamesettings:/gamesettings
+      - .\logs:/server/logs
+      - .\data:/server/data
+    restart: unless-stopped

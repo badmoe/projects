@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    environment:
+      - PLEX_CLAIM= # Optional, for claiming your Plex server
+      - ADVERTISE_IP=http://99.190.5.169:32400/ # Use localhost for Windows host or your private IP
+      - TZ=America/Chicago # Set to your timezone
+    volumes:
+      - "B:/Plex/Plex.Movies:/data/movies"   # Windows path for Movies
+      - "B:/Plex/Plex.Shows:/data/tv"        # Windows path for Shows
+      - "B:/Plex/Plex.metadata/config:/config"     # Plex config data
+      - "B:/Plex/Plex.metadata/transcode:/transcode"    # Optional transcode directory
+    ports:
+      - 32400:32400/tcp # Plex WebUI
+      - 3005:3005/tcp   # Plex HTPC
+      - 8324:8324/tcp   # Plex Smart TV
+      - 32469:32469/tcp # Plex DLNA
+      - 32410:32410/udp # GDM network discovery
+      - 32412:32412/udp # GDM network discovery
+      - 32413:32413/udp # GDM network discovery
+      - 32414:32414/udp # GDM network discovery
+      - 1900:1900/udp   # UPnP discovery
+    restart: unless-stopped
