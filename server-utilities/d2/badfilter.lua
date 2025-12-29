@@ -3,7 +3,7 @@
 --- Filter Description: freestyling this as we go
 --- Filter Link: https://raw.githubusercontent.com/badmoe/projects/refs/heads/master/server-utilities/d2/badfilter.lua
 return {
-    reload = "{turquoise}Badfilter {gray}(v1 or w/e) {green}",
+    reload = "{purple}Badfilter {grey}(v1 or w/e)",
     language = "enUS",
     allowOverrides = true,
     filter_level = 2,
@@ -29,6 +29,171 @@ return {
             itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
             suffix = "{grey}[{red}{sockets}{grey}]"
     },
+	{ -- El
+            codes = { "r01" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L1{grey})"
+	},
+    { -- Eld
+            codes = { "r02" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L2{grey})"
+    },
+    { -- Tir
+            codes = { "r03" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L4{grey})"
+    },
+    { -- Nef
+            codes = { "r04" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L8{grey})"
+    },
+    { -- Eth
+            codes = { "r05" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L16{grey})"
+    },
+    { -- Ith
+            codes = { "r06" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L32{grey})"
+    },
+    { -- Tal
+            codes = { "r07" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L64{grey})"
+    },
+    { -- Ral
+            codes = { "r08" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L128{grey})"
+    },
+    { -- Ort
+            codes = { "r09" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L256{grey})"
+    },
+    { -- Thul
+            codes = { "r10" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L512{grey})"
+    },
+    { -- Amn
+            codes = { "r11" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({yellow}L1024{grey})"
+    },
+    { -- Sol
+            codes = { "r12" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M1{grey})"
+    },
+    { -- Shael
+            codes = { "r13" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M2{grey})"
+    },
+    { -- Dol
+            codes = { "r14" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M4{grey})"
+    },
+    { -- Hel
+            codes = { "r15" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M8{grey})"
+    },
+    { -- Io
+            codes = { "r16" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M16{grey})"
+    },
+    { -- Lum
+            codes = { "r17" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M32{grey})"
+    },
+    { -- Ko
+            codes = { "r18" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M64{grey})"
+    },
+    { -- Fal
+            codes = { "r19" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M128{grey})"
+    },
+    { -- Lem
+            codes = { "r20" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M256{grey})"
+    },
+    { -- Pul
+            codes = { "r21" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M512{grey})"
+    },
+    { -- Um
+            codes = { "r22" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({gold}M1024{grey})"
+    },
+    { -- Mal
+            codes = { "r23" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H1{grey})"
+    },
+    { -- Ist
+            codes = { "r24" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H2{grey})"
+    },
+    { -- Gul
+            codes = { "r25" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H4{grey})"
+    },
+    { -- Vex
+            codes = { "r26" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H8{grey})"
+    },
+    { -- Ohm
+            codes = { "r27" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H16{grey})"
+    },
+    { -- Lo
+            codes = { "r28" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H32{grey})"
+    },
+    { -- Sur
+            codes = { "r29" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H64{grey})"
+    },
+    { -- Ber
+            codes = { "r30" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H128{grey})"
+    },
+    { -- Jah
+            codes = { "r31" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H256{grey})"
+    },
+    { -- Cham
+            codes = { "r32" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H512{grey})"
+    },
+    { -- Zod
+            codes = { "r33" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({green}H1024{grey})"
+    },
 	{ -- Charms suffixed Chrm
             codes = { "cm1", "cm2", "cm3" },
             location = { "onground" },
@@ -39,13 +204,18 @@ return {
             location = { "onground" },
             suffix = "{grey}({yellow}Jwlr{grey})"
 	},
-	{ -- Hide throwable potions
-            codes = { "exp", "gpm", "ops", "ful" },
+	{ -- Hide throwable potions + scrolls + misc junk
+            codes = { "gpl", "gpm", "gps", "opl", "opm", "ops", "isc", "tsc", "vps", "wms", "yps", "key" },
             hide = true
 	},
 	{ -- Hide hp/mp pots below tier 3 after level 25
             codes  = { "hp1", "hp2", "mp1", "mp2" },
             pstat  = { stat = "level", min = 25 },
+            hide   = true
+	},
+	{ -- Hide hp/mp pots below tier 4 after level 40
+            codes  = { "hp3", "mp3" },
+            pstat  = { stat = "level", min = 40 },
             hide   = true
 	},
 	{ -- Paladin shields all resist values
