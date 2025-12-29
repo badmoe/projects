@@ -58,18 +58,6 @@ return {
             stat = { index = 45, op = ">", value = 0 },
             suffix = "{grey}({gold}{stat=(39)}{grey})"
 	},
-	{ -- White base
-            codes = { "wnd","ywn","bwn","gwn",  "9wn","9yw","9bw","9gw",  "7wn","7yw","7bw","7gw" },
-            sockets = "2",
-            location = { "onground", "onplayer", "equipped", "atvendor" },
-            prefix = "{gold}(White Base) "
-	},
-	{ -- Spirit Sword base
-            codes = { "crs" },
-            sockets = "4",
-            location = { "onground", "onplayer", "equipped", "atvendor" },
-            prefix = "{gold}(Spirit Base) "
-	},
 	{ -- * if item has +All Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
