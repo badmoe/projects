@@ -8,7 +8,8 @@ return {
     allowOverrides = true,
     filter_level = 2,
     filter_titles = { "1", "2" },
-    rules = {
+    rules = (function()
+        local r = {
     ---------------------
     -- Class item tags --
     ---------------------
@@ -70,9 +71,37 @@ return {
             itype = { 5, 6, 10, 12, 45, 50, 58, 82, 83, 84 },
             suffix = "{grey}({blue}L{ilvl}{grey})",
     },
-    { -- 2+ sockets shows up in green [x]
+    { -- 6 sockets shows up in orange [x]
             codes = "allitems",
-            sockets = "2+",
+            sockets = "6",
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
+            suffix = "{grey}[{orange}{sockets}{grey}]"
+    },
+    { -- 5 sockets shows up in gold [x]
+            codes = "allitems",
+            sockets = "5",
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
+            suffix = "{grey}[{gold}{sockets}{grey}]"
+    },
+    { -- 4 sockets shows up in gold [x]
+            codes = "allitems",
+            sockets = "4",
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
+            suffix = "{grey}[{gold}{sockets}{grey}]"
+    },
+    { -- 3 sockets shows up in green [x]
+            codes = "allitems",
+            sockets = "3",
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
+            suffix = "{grey}[{green}{sockets}{grey}]"
+    },
+    { -- 2 sockets shows up in green [x]
+            codes = "allitems",
+            sockets = "2",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
             suffix = "{grey}[{green}{sockets}{grey}]"
@@ -84,16 +113,21 @@ return {
             itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
             suffix = "{grey}[{red}{sockets}{grey}]"
     },
-	{ -- Charms suffixed Chrm
+	{ -- Charms suffixed Chm
             codes = { "cm1", "cm2", "cm3" },
             location = { "onground" },
-            suffix = "{grey}({purple}Chrm{grey})"
+            suffix = "{grey}({pink}Chm{grey})"
 	},
-	{ -- Rings, Amulets, Jewelry suffixed Jwlr
-            codes = { "rin","amu","jew" },
+	{ -- Rings suffixed Rng
+            codes = { "rin" },
             location = { "onground" },
-            suffix = "{grey}({yellow}Jwlr{grey})"
+            suffix = "{grey}({pink}Rng{grey})"
 	},
+    { -- Amulets suffixed Amu
+            codes = { "amu" },
+            location = { "onground" },
+            suffix = "{grey}({pink}Amu{grey})"
+    },
 	{ -- Hide throwable potions + scrolls + misc junk
             codes = { "gpl", "gpm", "gps", "opl", "opm", "ops", "isc", "tsc", "vps", "wms", "yps", "key" },
             hide = true
@@ -120,7 +154,7 @@ return {
 	},
 
     -----------
-    -- Runes --    
+    -- Runes --
     -----------
 
 	{ -- El
@@ -297,175 +331,203 @@ return {
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 127, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Amazon Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 83, param = 0, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Sorceress Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 83, param = 1, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Necromancer Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 83, param = 2, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Paladin Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 83, param = 3, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Barbarian Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 83, param = 4, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Druid Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 83, param = 5, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Assassin Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 83, param = 6, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Amazon Bow/Crossbow Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 0, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Amazon Passive/Magic Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 1, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Amazon Javelin/Spear Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 2, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Sorc Fire Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 8, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Sorc Lightning Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 9, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Sorc Cold Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 10, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Necro Curses
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 16, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Necro Poison/Bone
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 17, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Necro Summoning
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 18, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Pally Combat Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 24, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Pally Offensive Auras
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 25, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Pally Defensive Auras
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 26, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Barb Combat Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 32, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Barb Masteries
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 33, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Barb Warcries
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 34, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Druid Summoning
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 40, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Druid Shape Shifting
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 41, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Druid Elemental
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 42, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Assassin Traps
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 48, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Assassin Shadow Disciplines
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 49, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
 	{ -- * if item has +Assassin Martial Arts
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             stat = { index = 188, param = 50, op = ">", value = 0 },
-            suffix = "{grey}*"
+            suffix = "{white}*"
 	},
-    }
+        }
+        for sid = 0, 374 do
+            table.insert(r, { -- * if item has +3 to any specific skill
+                codes = "allitems",
+                location = { "onground", "onplayer", "equipped", "atvendor" },
+                stat = { index = 107, param = sid, op = "==", value = 3 },
+                suffix = "{orange}*"
+            })
+        end
+
+        for sid = 0, 374 do
+            table.insert(r, { -- * if item has +2 to any specific skill
+                codes = "allitems",
+                location = { "onground", "onplayer", "equipped", "atvendor" },
+                stat = { index = 107, param = sid, op = "==", value = 2 },
+                suffix = "{yellow}*"
+            })
+        end
+
+        for sid = 0, 374 do
+            table.insert(r, { -- * if item has +1 to any specific skill
+                codes = "allitems",
+                location = { "onground", "onplayer", "equipped", "atvendor" },
+                stat = { index = 107, param = sid, op = "==", value = 1 },
+                suffix = "{blue}*"
+            })
+        end
+        return r
+    end)()
 }
