@@ -10,6 +10,7 @@ return {
     filter_titles = { "1", "2" },
     rules = (function()
         local r = {
+
     ---------------------
     -- Class item tags --
     ---------------------
@@ -143,7 +144,7 @@ return {
             hide   = true
 	},
 	{ -- Paladin shields all resist values
-            codes = { "pa1","pa2","pa3","pa4","pa5",  "xpa","xpb","xpc","xpd","xpe",  "upa","upb","upc","upd","upe" },
+            codes = { "pa1","pa2","pa3","pa4","pa5","pa6",  "xpa","xpb","xpc","xpd","xpe","xpf",  "upa","upb","upc","upd","upe","upf" },
             location = { "onground", "onplayer", "equipped", "atvendor" },
             quality = { 0, 1, 2, 3 },
             stat = { index = 39, op = ">", value = 0 },
