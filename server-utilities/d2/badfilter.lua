@@ -9,11 +9,66 @@ return {
     filter_level = 2,
     filter_titles = { "1", "2" },
     rules = {
+    ---------------------
+    -- Class item tags --
+    ---------------------
+
+	{ -- Barbarian
+            codes = { "ba1","ba2","ba3","ba4","ba5","ba6","ba7","ba8","ba9","baa","bab","bac","bad","bae","baf" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({turquoise}B{grey})"
+	},
+	{ -- Paladin
+            codes = {
+                      "pa1","pa2","pa3","pa4","pa5","pa6","pa7","pa8","pa9","paa","pab","pac","pad","pae","paf",
+                      "scp","gsc","wsp","rsc","hws","dsc","msc","srr","cad"
+                    },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({turquoise}P{grey})"
+	},
+	{ -- Sorceress
+            codes = {
+                      "ob1","ob2","ob3","ob4","ob5","ob6","ob7","ob8","ob9","oba","obb","obc","obd","obe","obf",
+                      "sst","lst","cst","8ss","8ls","8cs","7ss","7ls","7cs"
+                    },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({turquoise}S{grey})"
+	},
+	{ -- Amazon
+            codes = { "am1","am2","am3","am4","am5","am6","am7","am8","am9","ama","amb","amc","amd","ame","amf" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({turquoise}Z{grey})"
+	},
+	{ -- Assassin
+            codes = { "ktr","wrb","axf","ces","clw","btl","skr",
+                      "9ar","9wb","9xf","9cs","9lw","9tw","9qr",
+                      "7ar","7wb","7xf","7cs","7lw","7tw","7qr" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({turquoise}A{grey})"
+	},
+	{ -- Necromancer
+            codes = {
+                      "ne1","ne2","ne3","ne4","ne5","ne6","ne7","ne8","ne9","nea","neb","nec","ned","nee","nef",
+                      "wnd","ywn","bwn","gwn","9wn","9yw","9bw","9gw","7wn","7yw","7bw","7gw"
+                    },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({turquoise}N{grey})"
+	},
+	{ -- Druid
+            codes = { "dr1","dr2","dr3","dr4","dr5","dr6","dr7","dr8","dr9","dra","drb","drc","drd","dre","drf" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            suffix = "{grey}({turquoise}D{grey})"
+	},
+
+    -------------------
+    -- General rules --
+    -------------------
+
     { -- ilvl suffixed with L (x)
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
             itype = { 5, 6, 10, 12, 45, 50, 58, 82, 83, 84 },
-            suffix = " {grey}({blue}L{ilvl}{grey})",
+            suffix = "{grey}({blue}L{ilvl}{grey})",
     },
     { -- 2+ sockets shows up in green [x]
             codes = "allitems",
@@ -29,6 +84,45 @@ return {
             itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
             suffix = "{grey}[{red}{sockets}{grey}]"
     },
+	{ -- Charms suffixed Chrm
+            codes = { "cm1", "cm2", "cm3" },
+            location = { "onground" },
+            suffix = "{grey}({purple}Chrm{grey})"
+	},
+	{ -- Rings, Amulets, Jewelry suffixed Jwlr
+            codes = { "rin","amu","jew" },
+            location = { "onground" },
+            suffix = "{grey}({yellow}Jwlr{grey})"
+	},
+	{ -- Hide throwable potions + scrolls + misc junk
+            codes = { "gpl", "gpm", "gps", "opl", "opm", "ops", "isc", "tsc", "vps", "wms", "yps", "key" },
+            hide = true
+	},
+	{ -- Hide hp/mp pots below tier 3 after level 25
+            codes  = { "hp1", "hp2", "mp1", "mp2" },
+            pstat  = { stat = "level", min = 25 },
+            hide   = true
+	},
+	{ -- Hide hp/mp pots below tier 4 after level 40
+            codes  = { "hp3", "mp3" },
+            pstat  = { stat = "level", min = 40 },
+            hide   = true
+	},
+	{ -- Paladin shields all resist values
+            codes = { "pa1","pa2","pa3","pa4","pa5",  "xpa","xpb","xpc","xpd","xpe",  "upa","upb","upc","upd","upe" },
+            location = { "onground", "onplayer", "equipped", "atvendor" },
+            quality = { 0, 1, 2, 3 },
+            stat = { index = 39, op = ">", value = 0 },
+            stat = { index = 41, op = ">", value = 0 },
+            stat = { index = 43, op = ">", value = 0 },
+            stat = { index = 45, op = ">", value = 0 },
+            suffix = "{grey}({gold}{stat=(39)}{grey})"
+	},
+
+    -----------
+    -- Runes --    
+    -----------
+
 	{ -- El
             codes = { "r01" },
             location = { "onground", "onplayer", "equipped", "atvendor" },
@@ -194,40 +288,11 @@ return {
             location = { "onground", "onplayer", "equipped", "atvendor" },
             suffix = "{grey}({green}H1024{grey})"
     },
-	{ -- Charms suffixed Chrm
-            codes = { "cm1", "cm2", "cm3" },
-            location = { "onground" },
-            suffix = "{grey}({purple}Chrm{grey})"
-	},
-	{ -- Rings, Amulets, Jewelry suffixed Jwlr
-            codes = { "rin","amu","jew" },
-            location = { "onground" },
-            suffix = "{grey}({yellow}Jwlr{grey})"
-	},
-	{ -- Hide throwable potions + scrolls + misc junk
-            codes = { "gpl", "gpm", "gps", "opl", "opm", "ops", "isc", "tsc", "vps", "wms", "yps", "key" },
-            hide = true
-	},
-	{ -- Hide hp/mp pots below tier 3 after level 25
-            codes  = { "hp1", "hp2", "mp1", "mp2" },
-            pstat  = { stat = "level", min = 25 },
-            hide   = true
-	},
-	{ -- Hide hp/mp pots below tier 4 after level 40
-            codes  = { "hp3", "mp3" },
-            pstat  = { stat = "level", min = 40 },
-            hide   = true
-	},
-	{ -- Paladin shields all resist values
-            codes = { "pa1","pa2","pa3","pa4","pa5",  "xpa","xpb","xpc","xpd","xpe",  "upa","upb","upc","upd","upe" },
-            location = { "onground", "onplayer", "equipped", "atvendor" },
-            quality = { 0, 1, 2, 3 },
-            stat = { index = 39, op = ">", value = 0 },
-            stat = { index = 41, op = ">", value = 0 },
-            stat = { index = 43, op = ">", value = 0 },
-            stat = { index = 45, op = ">", value = 0 },
-            suffix = "{grey}({gold}{stat=(39)}{grey})"
-	},
+
+    -----------------
+    -- Skill stars --
+    -----------------
+
 	{ -- * if item has +All Skills
             codes = "allitems",
             location = { "onground", "onplayer", "equipped", "atvendor" },
