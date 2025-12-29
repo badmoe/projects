@@ -13,14 +13,14 @@ return {
         ----------------
         -- Toggles    --
         ----------------
-        local opt_class_tags        = 1
-        local opt_general_rules     = 1
-        local opt_hide_junk         = 1
-        local opt_hide_low_pots     = 1
-        local opt_pal_shield_res    = 1
-        local opt_runes             = 1
-        local opt_skill_stars       = 1
-        local opt_single_skill_star = 1
+        local opt_class_tags        = 1 -- class item tags (ex: (B) for barb items)
+        local opt_general_rules     = 1 -- general rules (ex: sockets, ilvl, charm/ring/amulet tags)
+        local opt_hide_junk         = 1 -- hide junk / consumables
+        local opt_hide_low_pots     = 1 -- hide low tier health/mana potions by level
+        local opt_pal_shield_res    = 1 -- paladin shields all res tag
+        local opt_runes             = 1 -- rune value tags for storage bag
+        local opt_skill_stars       = 1 -- stars for all/class/tab skills
+        local opt_single_skill_star = 1 -- stars for individual skills
 
         local r = { }
 
