@@ -1,3 +1,14 @@
+<#
+Windows 11 fresh-setup script
+- Solid black desktop background
+- Solid black lock screen background
+- Taskbar aligned left
+- Hide taskbar Search, Widgets, Task View
+- Install Chocolatey
+
+Run:  Right-click PowerShell -> "Run as administrator", then execute this script.
+#>
+
 # -------------------- Elevation --------------------
 $IsAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()
 ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -59,4 +70,36 @@ Set-ItemProperty -Path $polPersonalization -Name "LockScreenImage" -Type String 
 $csp = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
 New-Item -Path $csp -Force | Out-Null
 Set-ItemProperty -Path $csp -Name "LockScreenImagePath" -Type String -Value $blackPngPath
-Set-It
+Set-ItemProperty -Path $csp -Name "LockScreenImageStatus" -Type DWord -Value 1
+Set-ItemProperty -Path $csp -Name "LockScreenImageUrl" -Type String -Value $blackPngPath
+
+# -------------------- Taskbar settings --------------------
+$adv = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+New-Item -Path $adv -Force | Out-Null
+
+# Align left (0 = left, 1 = center)
+Set-ItemProperty -Path $adv -Name "TaskbarAl" -Type DWord -Value 0
+
+# Hide Search (0 = hidden)
+Set-ItemProperty -Path $adv -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+
+# Hide Widgets (0 = off)
+Set-ItemProperty -Path $adv -Name "TaskbarDa" -Type DWord -Value 0
+
+# Hide Task View (0 = off)
+Set-ItemProperty -Path $adv -Name "ShowTaskViewButton" -Type DWord -Value 0
+
+# Restart Explorer to apply taskbar changes
+Write-Host "Restarting Explorer..."
+Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+Start-Process explorer.exe
+
+# -------------------- Install Chocolatey --------------------
+Write-Host "Installing Chocolatey..."
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 3072 # TLS 1.2
+$chocoInstall = 'Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString("https://community.chocolatey.org/install.ps1"))'
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command $chocoInstall
+
+Write-Host "`nDone."
+Write-Host "Note: Lock screen image enforcement may require Windows 11 Pro/Enterprise; Windows Home may ignore it."
