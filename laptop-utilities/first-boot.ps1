@@ -94,7 +94,17 @@ if ($lockErrors) {
 
 # -------------------- Taskbar settings --------------------
 $adv = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-New-Item -Path $adv -Force | Out-Null
+try {
+  if (-not (Test-Path $adv)) {
+    New-Item -Path $adv -Force | Out-Null
+  }
+}
+catch [System.UnauthorizedAccessException] {
+  Write-Warning "Insufficient permissions creating $adv; continuing without creating key."
+}
+catch {
+  Write-Warning "Failed creating $adv: $_"
+}
 
 # Align left (0 = left, 1 = center)
 Set-ItemProperty -Path $adv -Name "TaskbarAl" -Type DWord -Value 0
