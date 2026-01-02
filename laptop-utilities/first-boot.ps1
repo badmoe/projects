@@ -61,17 +61,36 @@ Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "TileWallpaper"  -Val
 [void][Wallpaper]::SystemParametersInfo(20, 0, $blackPngPath, 3)
 
 # -------------------- Lock screen background = solid black --------------------
-# This uses policy keys (works best on Pro/Enterprise; on Home it may be ignored by the OS).
-$polPersonalization = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization"
-New-Item -Path $polPersonalization -Force | Out-Null
-Set-ItemProperty -Path $polPersonalization -Name "LockScreenImage" -Type String -Value $blackPngPath
+Write-Host "Setting lock screen background (best-effort)..."
 
-# Also set Personalization CSP values (sometimes honored where policy is not)
-$csp = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
-New-Item -Path $csp -Force | Out-Null
-Set-ItemProperty -Path $csp -Name "LockScreenImagePath" -Type String -Value $blackPngPath
-Set-ItemProperty -Path $csp -Name "LockScreenImageStatus" -Type DWord -Value 1
-Set-ItemProperty -Path $csp -Name "LockScreenImageUrl" -Type String -Value $blackPngPath
+$lockErrors = $false
+
+try {
+    $polPersonalization = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization"
+    New-Item -Path $polPersonalization -Force | Out-Null
+    Set-ItemProperty -Path $polPersonalization -Name "LockScreenImage" -Type String -Value $blackPngPath
+}
+catch {
+    Write-Warning "Lock screen policy key blocked by OS."
+    $lockErrors = $true
+}
+
+try {
+    $csp = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
+    New-Item -Path $csp -Force | Out-Null
+    Set-ItemProperty -Path $csp -Name "LockScreenImagePath" -Type String -Value $blackPngPath
+    Set-ItemProperty -Path $csp -Name "LockScreenImageStatus" -Type DWord -Value 1
+    Set-ItemProperty -Path $csp -Name "LockScreenImageUrl" -Type String -Value $blackPngPath
+}
+catch {
+    Write-Warning "Lock screen CSP blocked by OS."
+    $lockErrors = $true
+}
+
+if ($lockErrors) {
+    Write-Host "Lock screen image could not be enforced (expected on Windows 11 Home)."
+    Write-Host "Desktop background WAS applied successfully."
+}
 
 # -------------------- Taskbar settings --------------------
 $adv = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
