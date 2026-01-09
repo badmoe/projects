@@ -3,7 +3,7 @@
 --- Filter Description: freestyling this as we go
 --- Filter Link: https://raw.githubusercontent.com/badmoe/projects/refs/heads/master/server-utilities/d2/badfilter.lua
 return {
-    reload = "{purple}Badfilter {grey}(v1 or w/e)",
+    reload = "{purple}Badfilter {grey}(v1.1",
     language = "enUS",
     allowOverrides = true,
     filter_level = 2,
@@ -14,9 +14,12 @@ return {
         -- Toggles    --
         ----------------
         local opt_class_tags        = 1 -- class item tags (ex: (B) for barb items)
-        local opt_general_rules     = 1 -- general rules (ex: sockets, ilvl, charm/ring/amulet tags)
+        local opt_ethereal_tag      = 1 -- ethereal tag (e)
+        local opt_ilvl_tags         = 1 -- ilvl tags
+        local opt_socket_count      = 1 -- socket count tags
+        local opt_charm_ring_amu    = 1 -- charm/ring/amulet tags
         local opt_hide_junk         = 1 -- hide junk / consumables
-        local opt_hide_low_pots     = 1 -- hide low tier health/mana potions by level
+        local opt_hide_low_pots     = 0 -- hide low tier health/mana potions by level
         local opt_pal_shield_res    = 1 -- paladin shields all res tag
         local opt_runes             = 1 -- rune value tags for storage bag
         local opt_skill_stars       = 1 -- stars for all/class/tab skills
@@ -94,10 +97,26 @@ return {
 
         end
 
-        -------------------
-        -- General rules --
-        -------------------
-        if opt_general_rules == 1 then
+        ------------------
+        -- Ethereal tag --
+        ------------------
+
+        if opt_ethereal_tag == 1 then
+
+            add({ -- mark ethereal items with (e)
+                codes = "allitems",
+                location = { "onground", "onplayer", "equipped", "atvendor" },
+                ethereal = true,
+                suffix = "{grey}(e)"
+            })
+
+        end
+
+        ------------------
+        -- ilvl tagging --
+        ------------------
+
+        if opt_ilvl_tags == 1 then
 
             add({ -- ilvl suffixed with L (x)
                 codes = "allitems",
@@ -106,28 +125,36 @@ return {
                 suffix = "{grey}({blue}L{ilvl}{grey})",
             })
 
-            add({ -- 6 sockets shows up in orange [x]
+        end
+
+        -----------------------
+        -- Socket count tags --
+        -----------------------
+
+        if opt_socket_count == 1 then
+
+            add({ -- 6 sockets shows up in green [x]
                 codes = "allitems",
                 sockets = "6",
                 location = { "onground", "onplayer", "equipped", "atvendor" },
                 itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
-                suffix = "{grey}[{orange}{sockets}{grey}]"
+                suffix = "{grey}[{green}{sockets}{grey}]"
             })
 
-            add({ -- 5 sockets shows up in gold [x]
+            add({ -- 5 sockets shows up in green [x]
                 codes = "allitems",
                 sockets = "5",
                 location = { "onground", "onplayer", "equipped", "atvendor" },
                 itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
-                suffix = "{grey}[{gold}{sockets}{grey}]"
+                suffix = "{grey}[{green}{sockets}{grey}]"
             })
 
-            add({ -- 4 sockets shows up in gold [x]
+            add({ -- 4 sockets shows up in green [x]
                 codes = "allitems",
                 sockets = "4",
                 location = { "onground", "onplayer", "equipped", "atvendor" },
                 itype = { 10, 12, 45, 50, 58, 82, 83, 84 },
-                suffix = "{grey}[{gold}{sockets}{grey}]"
+                suffix = "{grey}[{green}{sockets}{grey}]"
             })
 
             add({ -- 3 sockets shows up in green [x]
@@ -154,6 +181,14 @@ return {
                 suffix = "{grey}[{red}{sockets}{grey}]"
             })
 
+        end
+
+        -----------------------
+        -- Ring/Amulet/Charm --
+        -----------------------
+
+        if opt_charm_ring_amu == 1 then
+
             add({ -- Charms suffixed Chm
                 codes = { "cm1", "cm2", "cm3" },
                 location = { "onground" },
@@ -177,6 +212,7 @@ return {
         ---------------------------
         -- Hide junk / consumables
         ---------------------------
+
         if opt_hide_junk == 1 then
             add({ -- Hide throwable potions + scrolls + misc junk
                 codes = { "gpl", "gpm", "gps", "opl", "opm", "ops", "isc", "tsc", "vps", "wms", "yps", "key" },
@@ -187,6 +223,7 @@ return {
         --------------------------
         -- Hide low pots by level
         --------------------------
+
         if opt_hide_low_pots == 1 then
 
             add({ -- Hide hp/mp pots below tier 3 after level 25
@@ -201,14 +238,30 @@ return {
                 hide   = true
             })
 
+            add({ -- Hide hp/mp pots below tier 5 after level 65
+                codes  = { "hp4", "mp4" },
+                pstat  = { stat = "level", min = 65 },
+                hide   = true
+            })
+
         end
 
         -------------------------------
         -- Paladin shields all res tag
         -------------------------------
+
         if opt_pal_shield_res == 1 then
             add({ -- Paladin shields all resist values
-                codes = { "pa1","pa2","pa3","pa4","pa5","pa6",  "xpa","xpb","xpc","xpd","xpe","xpf",  "upa","upb","upc","upd","upe","upf" },
+                codes = {
+                    -- Normal
+                    "pa1","pa2","pa3","pa4","pa5","pa6",
+
+                    -- Exceptional
+                    "xpa","xpb","xpc","xpd","xpe","xpf",
+
+                    -- Elite
+                    "pab","pac","pad","pae","paf"
+                },
                 location = { "onground", "onplayer", "equipped", "atvendor" },
                 quality = { 0, 1, 2, 3 },
                 stat = { index = 39, op = ">", value = 0 },
@@ -222,6 +275,7 @@ return {
         -----------
         -- Runes --
         -----------
+
         if opt_runes == 1 then
 
             local runes = {
@@ -275,31 +329,76 @@ return {
         -----------------
         -- Skill stars --
         -----------------
+
         if opt_skill_stars == 1 then
 
-            add({ -- * if item has +All Skills
+            add({ -- +ALL SKILLS
                 codes = "allitems",
                 location = { "onground", "onplayer", "equipped", "atvendor" },
-                stat = { index = 127, op = ">", value = 0 },
-                suffix = "{white}*"
+                stat = { index = 127, op = "==", value = 3 },
+                suffix = "{gold}!!!"
+            })
+            add({
+                codes = "allitems",
+                location = { "onground", "onplayer", "equipped", "atvendor" },
+                stat = { index = 127, op = "==", value = 2 },
+                suffix = "{gold}**"
+            })
+            add({
+                codes = "allitems",
+                location = { "onground", "onplayer", "equipped", "atvendor" },
+                stat = { index = 127, op = "==", value = 1 },
+                suffix = "{gold}*"
             })
 
-            local class_skill_params = { 0, 1, 2, 3, 4, 5, 6 }
-            for _, p in ipairs(class_skill_params) do
-                add({ -- * if item has +Class Skills
+            for class = 0, 6 do
+                add({ -- +CLASS SKILLS
                     codes = "allitems",
                     location = { "onground", "onplayer", "equipped", "atvendor" },
-                    stat = { index = 83, param = p, op = ">", value = 0 },
-                    suffix = "{white}*"
+                    stat = { index = 83, param = class, op = "==", value = 3 },
+                    suffix = "{turquoise}!!!"
+                })
+                add({
+                    codes = "allitems",
+                    location = { "onground", "onplayer", "equipped", "atvendor" },
+                    stat = { index = 83, param = class, op = "==", value = 2 },
+                    suffix = "{turquoise}**"
+                })
+                add({
+                    codes = "allitems",
+                    location = { "onground", "onplayer", "equipped", "atvendor" },
+                    stat = { index = 83, param = class, op = "==", value = 1 },
+                    suffix = "{turquoise}*"
                 })
             end
 
-            local tab_skill_params = { 0, 1, 2, 8, 9, 10, 16, 17, 18, 24, 25, 26, 32, 33, 34, 40, 41, 42, 48, 49, 50 }
-            for _, p in ipairs(tab_skill_params) do
-                add({ -- * if item has +Skill Tab
+            local tab_params = {
+                0,1,2,
+                8,9,10,
+                16,17,18,
+                24,25,26,
+                32,33,34,
+                40,41,42,
+                48,49,50
+            }
+
+            for _, tab in ipairs(tab_params) do
+                add({ -- +SKILL TAB
                     codes = "allitems",
                     location = { "onground", "onplayer", "equipped", "atvendor" },
-                    stat = { index = 188, param = p, op = ">", value = 0 },
+                    stat = { index = 188, param = tab, op = "==", value = 3 },
+                    suffix = " {white}!!!"
+                })
+                add({
+                    codes = "allitems",
+                    location = { "onground", "onplayer", "equipped", "atvendor" },
+                    stat = { index = 188, param = tab, op = "==", value = 2 },
+                    suffix = "{white}**"
+                })
+                add({
+                    codes = "allitems",
+                    location = { "onground", "onplayer", "equipped", "atvendor" },
+                    stat = { index = 188, param = tab, op = "==", value = 1 },
                     suffix = "{white}*"
                 })
             end
@@ -309,6 +408,7 @@ return {
         -------------------------
         -- Single-skill stars  --
         -------------------------
+
         if opt_single_skill_star == 1 then
 
             for sid = 0, 374 do
