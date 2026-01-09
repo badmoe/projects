@@ -3,7 +3,7 @@
 --- Filter Description: freestyling this as we go
 --- Filter Link: https://raw.githubusercontent.com/badmoe/projects/refs/heads/master/server-utilities/d2/badfilter.lua
 return {
-    reload = "{purple}Badfilter {grey}(v1.1",
+    reload = "{purple}Badfilter {grey}(v1.1)",
     language = "enUS",
     allowOverrides = true,
     filter_level = 2,
