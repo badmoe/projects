@@ -3,7 +3,7 @@
 --- Filter Description: freestyling this as we go
 --- Filter Link: https://raw.githubusercontent.com/badmoe/projects/refs/heads/master/server-utilities/d2/badfilter.lua
 return {
-    reload = "{purple}Badfilter {grey}(v1.1)",
+    reload = "{purple}Badfilter {grey}(v1.1.1.1)",
     language = "enUS",
     allowOverrides = true,
     filter_level = 2,
@@ -19,7 +19,7 @@ return {
         local opt_socket_count      = 1 -- socket count tags
         local opt_charm_ring_amu    = 1 -- charm/ring/amulet tags
         local opt_hide_junk         = 1 -- hide junk / consumables
-        local opt_hide_low_pots     = 0 -- hide low tier health/mana potions by level
+        local opt_hide_low_pots     = 1 -- hide low tier health/mana potions by level
         local opt_pal_shield_res    = 1 -- paladin shields all res tag
         local opt_runes             = 1 -- rune value tags for storage bag
         local opt_skill_stars       = 1 -- stars for all/class/tab skills
@@ -221,26 +221,26 @@ return {
         end
 
         --------------------------
-        -- Hide low pots by level
+        -- Hide low pots by area level
         --------------------------
 
         if opt_hide_low_pots == 1 then
 
-            add({ -- Hide hp/mp pots below tier 3 after level 25
+            add({ -- Hide tier 1–2 pots in midgame zones (area level 25+)
                 codes  = { "hp1", "hp2", "mp1", "mp2" },
-                pstat  = { stat = "level", min = 25 },
+                alvl   = { min = 25 },
                 hide   = true
             })
 
-            add({ -- Hide hp/mp pots below tier 4 after level 40
+            add({ -- Hide tier 3 pots in late-game zones (area level 40+)
                 codes  = { "hp3", "mp3" },
-                pstat  = { stat = "level", min = 40 },
+                alvl   = { min = 40 },
                 hide   = true
             })
 
-            add({ -- Hide hp/mp pots below tier 5 after level 65
+            add({ -- Hide tier 4 pots once you're in high-level zones (area level 65+)
                 codes  = { "hp4", "mp4" },
-                pstat  = { stat = "level", min = 65 },
+                alvl   = { min = 65 },
                 hide   = true
             })
 
